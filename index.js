@@ -47,19 +47,6 @@ const search = (org, env, auth, term) => {
 
 const auth = 'Basic ' + new Buffer(`${process.env.USERID}:${process.env.USERPASSWORD}`).toString('base64');
 
-//search('nordstrom-prod', 'prod', auth, 'nordstrom_client_apigee_com');
-//search('markeccles-eval', 'prod', auth, 'name');
-
-
 const token = 'Bearer ' + process.env.APIGEE_TOKEN;
 
-for (let i=1; i <= 9; i++) {
-	for (let j=1; j <= 5; j++) {
-		if (i == 7) {
-			//skip for now
-		} else {
-			search(`telstra-org00${i}`, `slot${j}`, token, 'ScriptTarget');
-		}
-	}
-	search(`telstra-org00${i}`, `qa`, token, 'ScriptTarget');
 }
