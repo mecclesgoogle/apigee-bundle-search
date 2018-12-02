@@ -1,0 +1,16 @@
+{
+  "name": "bundle-srchr",
+  "version": "1.0.0",
+  "description": "Searches deployed bundles for phrases",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "markeccles",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.4.11",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {}
+}
