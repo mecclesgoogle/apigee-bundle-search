@@ -22,10 +22,10 @@ const search = (org, env, auth, term) => {
         const bundle_dir = path.join(os.tmpdir(), basedir, target_directory);
         bundle_zip.extractAllTo(/*target path*/bundle_dir, /*overwrite*/true);
       }
-      const search = spawn('grep', ['-lnR', term, path.join(os.tmpdir(), basedir)]);
+      const search = spawn('grep', ['-lniR', term, path.join(os.tmpdir(), basedir)]);
 
       search.stdout.on('data', (data) => {
-      	console.log(`Matches for term '${term}' in following files:`);
+      	console.log(`Matches for term '${term}' found in following files:`);
       	const matches = data.toString().split(os.EOL);
       	for (let match of matches) {
 
@@ -46,16 +46,27 @@ const search = (org, env, auth, term) => {
     });
 };
 
-const auth = 'Basic ' + new Buffer(`${process.env.USERID}:${process.env.USERPASSWORD}`).toString('base64');
-
-//const token = 'Bearer ' + process.env.APIGEE_TOKEN;
+let auth;
 
 const optionDefinitions = [
   { name: 'org', alias: 'o', type: String },
   { name: 'env', alias: 'e', type: String },
-  { name: 'term', alias: 't', type: String }
+  { name: 'term', alias: 't', type: String },
+  { name: 'username', alias: 'u', type: String },
+  { name: 'password', alias: 'p', type: String },
+  { name: 'jwt', alias: 'j', type: String }
 ];
 const options = commandLineArgs(optionDefinitions);
+
+if (options.jwt) {
+  let auth = 'Bearer ' + options.jwt;
+} else {
+  if (options.username && options.password) {
+    auth = 'Basic ' + Buffer.from(`${process.env.USERID}:${process.env.USERPASSWORD}`).toString('base64');
+  } else {
+    throw new Error('username and password not provided');
+  }
+}
 
 search(options.org, options.env, auth, options.term);
 
