@@ -4,6 +4,7 @@ const AdmZip = require('adm-zip');
 const path = require('path');
 const os = require('os');
 const { spawn } = require('child_process');
+const commandLineArgs = require('command-line-args');
 
 const search = (org, env, auth, term) => {
   
@@ -47,6 +48,15 @@ const search = (org, env, auth, term) => {
 
 const auth = 'Basic ' + new Buffer(`${process.env.USERID}:${process.env.USERPASSWORD}`).toString('base64');
 
-const token = 'Bearer ' + process.env.APIGEE_TOKEN;
+//const token = 'Bearer ' + process.env.APIGEE_TOKEN;
 
-}
+const optionDefinitions = [
+  { name: 'org', alias: 'o', type: String },
+  { name: 'env', alias: 'e', type: String },
+  { name: 'term', alias: 't', type: String }
+];
+const options = commandLineArgs(optionDefinitions);
+
+search(options.org, options.env, auth, options.term);
+
+
