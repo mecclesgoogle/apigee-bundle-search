@@ -25,6 +25,7 @@ Use the get_token tool https://docs.apigee.com/api-platform/system-administratio
 
 ## Run
 node index.js -o org -e env -t search_term -u $USERID -p $USERPASSWORD
+
 node index.js -o org -e env -t search_term -j $APIGEE_TOKEN
 
 ## Cmd line args:
